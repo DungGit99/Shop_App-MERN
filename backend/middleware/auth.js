@@ -8,7 +8,8 @@ let auth = (req, res, next) => {
     if (!user)
       return res.json({
         isAuth: false,
-        error: true
+        error: true,
+        message: 'Chưa đăng nhập'
       });
 
     req.token = token;
