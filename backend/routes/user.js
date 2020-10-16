@@ -4,7 +4,7 @@ const router = express.Router();
 const { User } = require('../models/User');
 const { auth } = require('../middleware/auth');
 
-router.post('/register',(req,res) => {
+router.post('/api/register',(req,res) => {
   const user = new User(req.body)
   user.save((err, userInfo) => {
     if(err) return res.json({ success: false, err});
@@ -14,7 +14,7 @@ router.post('/register',(req,res) => {
   })
 })
 
-router.post('/login', (req, res) => {
+router.post('/api/login', (req, res) => {
   User.findOne({ email: req.body.email }, (err, user) => {
     if(!user) {
       return res.json({
@@ -32,13 +32,14 @@ router.post('/login', (req, res) => {
           res.cookie("w_auth", user.token).status(200).json({
                   loginSuccess: true, 
                   userId: user._id,
-                  token: user.token
+                  token: user.token,
+                  message: "Đăng nhập thành công"
           });
       });
     });
   })
 })
-router.get('/logout', auth, (req, res) => {
+router.get('/api/logout', auth, (req, res) => {
   User.findOneAndUpdate({_id: req.user._id}, { token: ""}, (err, user) => {
     if (err) return res.json({ success: false, err });
       return res.status(200).send({
@@ -47,7 +48,7 @@ router.get('/logout', auth, (req, res) => {
   })
 })
 
-router.get('users/auth', auth, (req, res) => {
+router.get('/api/users/auth', auth, (req, res) => {
   res.status(200).json({
     _id:  req.user._id,
     isAdmin: req.user.role === 0 ? false : true,

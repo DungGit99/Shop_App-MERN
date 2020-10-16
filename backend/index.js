@@ -21,6 +21,10 @@ mongoose.connect(config.mongoURI,{
 }).then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err))
 
+app.get('/api/hello', (req,res) => {
+  res.send('Test')
+})
+
 app.use('/', require('./routes/user'));
 
 app.listen(port, () => {
