@@ -26,6 +26,7 @@ app.get('/api/hello', (req,res) => {
 })
 
 app.use('/', require('./routes/user'));
+app.use('/api/product', require('./routes/product'));
 
 app.listen(port, () => {
   console.log(`🌻  ${port} 🌻`)
